@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Coursework</string>
+    <string name="tv_name">Name of Hike: </string>
+    <string name="tv_location">Location: </string>
+    <string name="tv_date">Date: </string>
+    <string name="tv_parking">Parking available: </string>
+    <string name="tv_length">Length the hike: </string>
+    <string name="tv_difficulty">Level of difficulty: </string>
+    <string name="tv_description">Description: </string>
+    <string-array name="difficulty_levels">
+        <item>Easy</item>
+        <item>Moderate</item>
+        <item>Difficult</item>
+    </string-array>
+</resources>
