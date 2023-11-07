@@ -103,23 +103,33 @@
             android:text="Observations: "
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="608dp" />
-        <ScrollView
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/obRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/obRecycleView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </androidx.recyclerview.widget.RecyclerView>
+            <Button
+                android:id="@+id/btnAddObservation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Add Observation" />
 
-        </ScrollView>
-        <Button
-            android:id="@+id/btnAddObservation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Observation" />
+            <Button
+                android:id="@+id/btnObDeleteAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="Delete All" />
 
+        </GridLayout>
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"

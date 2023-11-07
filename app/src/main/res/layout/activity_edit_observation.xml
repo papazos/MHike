@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".EditObservationActivity">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/textView10"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/tv_observation" />
+        android:orientation="vertical"
+        android:padding="20dp"
+        tools:context=".EditObservationActivity">
 
-    <EditText
-        android:id="@+id/observation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="text"/>
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/tv_obTime" />
-
-    <EditText
-        android:id="@+id/obTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="text" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/tv_obComment" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="150dp">
-        <EditText
-            android:id="@+id/obComments"
+        <TextView
+            android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:hint="@string/obCommentsHint"/>
-    </ScrollView>
+            android:text="@string/tv_observation" />
 
-    <Button
-        android:id="@+id/btn_updateOb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/btn_obUpdate" />
-</LinearLayout>
+        <EditText
+            android:id="@+id/observation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"/>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_obTime" />
+
+        <TimePicker
+            android:id="@+id/obTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_obComment" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <EditText
+                android:id="@+id/obComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:hint="@string/obCommentsHint"/>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_updateOb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_obUpdate" />
+    </LinearLayout>
+
+</ScrollView>

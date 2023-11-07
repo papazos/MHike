@@ -104,7 +104,8 @@ public class DetailsActivity extends AppCompatActivity {
         HikeDatabaseHelper dbHelper = new HikeDatabaseHelper(getApplicationContext());
         dbHelper.deleteAllHikes();
 
-        Intent i = new Intent(this, CreateHikeActivity.class);
+        Intent i = new Intent(this, MainActivity.class); // Change to your root activity's name
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // This flag clears the back stack
         startActivity(i);
     }
 }

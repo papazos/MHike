@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class EditObservationActivity extends AppCompatActivity {
-    private EditText obName, obTime, obComment;
+    private TimePicker timePicker;
+    private EditText obName, obComment;
     private Button btnUpdate;
     private ObservationAdapter observationAdapter;
     private ObservationDatabaseHelper db;
@@ -22,16 +26,24 @@ public class EditObservationActivity extends AppCompatActivity {
         int obId = getIntent().getIntExtra("obId", -1);
 
         obName = findViewById(R.id.observation);
-        obTime = findViewById(R.id.obTime);
+        timePicker = findViewById(R.id.obTime);
         obComment = findViewById(R.id.obComments);
         btnUpdate = findViewById(R.id.btn_updateOb);
+
+        timePicker = findViewById(R.id.obTime);
+        timePicker.setIs24HourView(true);
 
         db = new ObservationDatabaseHelper(getApplicationContext());
         Observation ob = db.getObservationDetails(obId);
 
         if(ob != null){
+            String[] timeComponents = ob.getObservationTime().split(":");
+            int hour = Integer.parseInt(timeComponents[0]);
+            int minute = Integer.parseInt(timeComponents[1]);
+
             obName.setText(ob.getObservation());
-            obTime.setText(ob.getObservationTime());
+            timePicker.setHour(hour);
+            timePicker.setMinute(minute);
             obComment.setText(ob.getObservationComments());
 
             btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +59,13 @@ public class EditObservationActivity extends AppCompatActivity {
 
     private void showConfirmation(int obId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        int selectedHour = timePicker.getHour();
+        int selectedMinute = timePicker.getMinute();
+        String time = selectedHour + ":" + selectedMinute;
+
         builder.setTitle("Confirmation");
         builder.setMessage("Observation Name: " + obName.getText().toString() + "\n" +
-                "Time: " + obTime.getText().toString() + "\n" +
+                "Time: " + time + "\n" +
                 "Comment: " + obComment.getText().toString());
         builder.setPositiveButton("Confirm", (dialog, which) -> {
             updateObDetails();
@@ -62,8 +78,11 @@ public class EditObservationActivity extends AppCompatActivity {
 
     private void updateObDetails() {
         ObservationDatabaseHelper dbHelper = new ObservationDatabaseHelper(getApplicationContext());
+        int selectedHour = timePicker.getHour();
+        int selectedMinute = timePicker.getMinute();
+
         String name = obName.getText().toString();
-        String time = obTime.getText().toString();
+        String time = selectedHour + ":" + selectedMinute;
         String comment = obComment.getText().toString();
 
         int obId = getIntent().getIntExtra("obId", -1);
@@ -80,11 +99,6 @@ public class EditObservationActivity extends AppCompatActivity {
 
         if (obName.getText().toString().isEmpty()) {
             obName.setError("Observation Name is required");
-            isValid = false;
-        }
-
-        if (obTime.getText().toString().isEmpty()) {
-            obTime.setError("Time is required");
             isValid = false;
         }
 

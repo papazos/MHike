@@ -104,6 +104,9 @@ public class CreateHikeActivity extends AppCompatActivity {
         long hikeId = dbHelper.insertDetails(name,location,date,parkingAvailability,length,selectedDifficulty,description);
 
         Toast.makeText(this, "A new hike has been created with id: " + hikeId, Toast.LENGTH_LONG).show();
+
+        Intent i = new Intent(this, DetailsActivity.class);
+        startActivity(i);
     }
 
 

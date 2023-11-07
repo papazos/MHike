@@ -30,7 +30,7 @@ public class EditHikeActivity extends AppCompatActivity {
     private Spinner hikeDifficulty;
     private Switch parkingSwitch;
     private DatePicker hikeDate;
-    private Button btnEdit, btnObAdd;
+    private Button btnEdit, btnObAdd, btnObDeleteAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,19 @@ public class EditHikeActivity extends AppCompatActivity {
         hikeDate = findViewById(R.id.hikeDate);
         btnEdit = findViewById(R.id.btnSubmit);
         btnObAdd = findViewById(R.id.btnAddObservation);
+        btnObDeleteAll = findViewById(R.id.btnObDeleteAll);
+
+        List<Observation> availableOb = dbHelper.getObservationsForHike(hikeId);
+        if (!availableOb.isEmpty()) {
+            btnObDeleteAll.setVisibility(View.VISIBLE);
+
+            btnObDeleteAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showObDeleteAll();
+                }
+            });
+        }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, difficultyArray);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -102,6 +115,31 @@ public class EditHikeActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void showObDeleteAll() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmation");
+        builder.setMessage("You are going to delete all observations, are you sure about that?");
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteAllObservation();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void deleteAllObservation() {
+        int hikeId = getIntent().getIntExtra("hikeId", -1);
+        dbHelper.deleteAllObservationsForHike(hikeId);
+        Toast.makeText(this, "All the observations have been deleted", Toast.LENGTH_SHORT).show();
     }
 
     private void showConfirmation(int hikeId) {

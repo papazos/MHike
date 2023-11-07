@@ -8,13 +8,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ObservationActivity extends AppCompatActivity {
     int hikeId;
-    private EditText obName, obTime, obComment;
+    private TimePicker timePicker;
+    private EditText obName, obComment;
     private Button btnAdd;
     private ObservationAdapter observationAdapter;
 
@@ -24,9 +27,20 @@ public class ObservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_observation);
 
         obName = findViewById(R.id.observation);
-        obTime = findViewById(R.id.obTime);
         obComment = findViewById(R.id.obComments);
         btnAdd = findViewById(R.id.btn_addOb);
+
+        timePicker = findViewById(R.id.obTime);
+        timePicker.setIs24HourView(true);
+
+        // Get the current time
+        Calendar currentTime = Calendar.getInstance();
+        int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = currentTime.get(Calendar.MINUTE);
+
+        timePicker.setHour(currentHour);
+        timePicker.setMinute(currentMinute);
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,9 +54,13 @@ public class ObservationActivity extends AppCompatActivity {
 
     private void showConfirmation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        int selectedHour = timePicker.getHour();
+        int selectedMinute = timePicker.getMinute();
+        String time = selectedHour + ":" + selectedMinute;
+
         builder.setTitle("Confirmation");
         builder.setMessage("Observation Name: " + obName.getText().toString() + "\n" +
-                "Time: " + obTime.getText().toString() + "\n" +
+                "Time: " + time + "\n" +
                 "Comment: " + obComment.getText().toString());
         builder.setPositiveButton("Confirm", (dialog, which) -> {
             saveObDetails();
@@ -55,8 +73,12 @@ public class ObservationActivity extends AppCompatActivity {
 
     private void saveObDetails() {
         ObservationDatabaseHelper dbHelper = new ObservationDatabaseHelper(getApplicationContext());
+
+        int selectedHour = timePicker.getHour();
+        int selectedMinute = timePicker.getMinute();
+
         String name = obName.getText().toString();
-        String time = obTime.getText().toString();
+        String time = selectedHour + ":" + selectedMinute;
         String comment = obComment.getText().toString();
         int hikeId = getIntent().getIntExtra("hikeId", -1);
 
@@ -64,7 +86,6 @@ public class ObservationActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Observation added successfully", Toast.LENGTH_SHORT).show();
 
-        // Finish the current activity
         finish();
     }
 
@@ -73,11 +94,6 @@ public class ObservationActivity extends AppCompatActivity {
 
         if (obName.getText().toString().isEmpty()) {
             obName.setError("Observation Name is required");
-            isValid = false;
-        }
-
-        if (obTime.getText().toString().isEmpty()) {
-            obTime.setError("Time is required");
             isValid = false;
         }
 
