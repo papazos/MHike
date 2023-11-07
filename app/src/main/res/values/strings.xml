@@ -12,4 +12,10 @@
         <item>Moderate</item>
         <item>Difficult</item>
     </string-array>
+    <string name="tv_observation">Observation: </string>
+    <string name="tv_obTime">Time of the observation: </string>
+    <string name="tv_obComment">Comments: </string>
+    <string name="btn_addOb">Add</string>
+    <string name="obCommentsHint">Write some comments here</string>
+    <string name="btn_obUpdate">Update</string>
 </resources>

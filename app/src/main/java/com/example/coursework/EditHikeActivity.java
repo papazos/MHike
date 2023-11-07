@@ -2,6 +2,8 @@ package com.example.coursework;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,21 +17,38 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class EditHikeActivity extends AppCompatActivity {
+    private RecyclerView obRecyclerView;
+    private ObservationDatabaseHelper dbHelper;
+    private List<Observation> observationList;
+    private ObservationAdapter obAdapter;
 
     private String[] difficultyArray  = {"Easy", "Moderate", "Difficult"};
     private EditText hikeName, hikeLocation, hikeLength, hikeDescription;
     private Spinner hikeDifficulty;
     private Switch parkingSwitch;
     private DatePicker hikeDate;
+    private Button btnEdit, btnObAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_hike);
+
         int hikeId = getIntent().getIntExtra("hikeId", -1); // -1 is a default value in case the extra is not found
 
-        DatabaseHelper db = new DatabaseHelper(this);
+        obRecyclerView = findViewById(R.id.obRecycleView);
+        obRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        dbHelper = new ObservationDatabaseHelper(getApplicationContext());
+
+        observationList = dbHelper.getObservationsForHike(hikeId);
+        obAdapter = new ObservationAdapter(observationList, dbHelper);
+        obRecyclerView.setAdapter(obAdapter);
+
+        HikeDatabaseHelper db = new HikeDatabaseHelper(this);
         Hike hike = db.getHikeDetails(hikeId);
 
         // Get references to the EditText fields in your layout
@@ -40,13 +59,12 @@ public class EditHikeActivity extends AppCompatActivity {
         parkingSwitch = findViewById(R.id.parkingAvailable);
         hikeDescription = findViewById(R.id.hikeDescription);
         hikeDate = findViewById(R.id.hikeDate);
-
-        Button btnEdit = findViewById(R.id.btnSubmit);
+        btnEdit = findViewById(R.id.btnSubmit);
+        btnObAdd = findViewById(R.id.btnAddObservation);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, difficultyArray);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hikeDifficulty.setAdapter(dataAdapter);
-        // Repeat this for other EditText fields
 
         // Set the text of each EditText to the corresponding detail from the retrieved Hike object
         if (hike != null) {
@@ -66,12 +84,19 @@ public class EditHikeActivity extends AppCompatActivity {
             String date = hike.getDate();
             setDatePickerFromDate(hikeDate, date);
 
+            btnObAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(view.getContext(), ObservationActivity.class);
+                    i.putExtra("hikeId", hikeId);
+                    startActivity(i);
+                }
+            });
+
             btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (validateForm() == false) {
-                        return;
-                    } else {
+                    if (validateForm()) {
                         showConfirmation(hikeId);
                     }
                 }
@@ -125,7 +150,7 @@ public class EditHikeActivity extends AppCompatActivity {
     }
 
     private void updateDetails(int hikeId) {
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        HikeDatabaseHelper dbHelper = new HikeDatabaseHelper(getApplicationContext());
         String name = hikeName.getText().toString();
         String location = hikeLocation.getText().toString();
         String length = hikeLength.getText().toString();
@@ -141,8 +166,7 @@ public class EditHikeActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Updated", Toast.LENGTH_LONG).show();
 
-        Intent i = new Intent(this, DetailsActivity.class);
-        startActivity(i);
+        finish();
     }
 
     private int getDifficultyIndex(String difficulty) {

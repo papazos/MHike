@@ -11,9 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.List;
 public class DetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Hike> hikeList;
-    private DatabaseHelper dbHelper;
+    private HikeDatabaseHelper dbHelper;
     private HikeAdapter hikeAdapter;
 
     @Override
@@ -32,11 +30,11 @@ public class DetailsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        dbHelper = new DatabaseHelper(getApplicationContext());
+        dbHelper = new HikeDatabaseHelper(getApplicationContext());
 
         // Retrieve data from the database and populate the originalHikeList
         hikeList = dbHelper.getAllDetails();
-        hikeAdapter = new HikeAdapter(hikeList, hikeList, dbHelper);
+        hikeAdapter = new HikeAdapter(hikeList, dbHelper);
 
         // Set the adapter on the RecyclerView
         recyclerView.setAdapter(hikeAdapter);
@@ -103,10 +101,10 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void handleDeleteAllDatabase() {
-        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        HikeDatabaseHelper dbHelper = new HikeDatabaseHelper(getApplicationContext());
         dbHelper.deleteAllHikes();
 
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, CreateHikeActivity.class);
         startActivity(i);
     }
 }

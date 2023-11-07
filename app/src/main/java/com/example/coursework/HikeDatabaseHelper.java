@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class HikeDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "hike_details";
     private static final String ID_COLUMN_NAME = "hike_id";
     private static final String NAME_COLUMN_NAME = "name";
@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "%s TEXT, " +
             "%s TEXT, " +
             "%s TEXT)", DATABASE_NAME, ID_COLUMN_NAME, NAME_COLUMN_NAME, LOCATION_COLUMN_NAME, DATE_COLUMN_NAME, PARKING_COLUMN_NAME, LENGTH_COLUMN_NAME, DIFFICULTY_COLUMN_NAME, DESCRIPTION_COLUMN_NAME);
-    public DatabaseHelper(Context context) {
+    public HikeDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
         database = getWritableDatabase();
     }

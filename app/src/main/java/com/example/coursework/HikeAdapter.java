@@ -1,7 +1,6 @@
 package com.example.coursework;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +15,10 @@ import java.util.List;
 
 public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
     private List<Hike> hikeList;
-    private List<Hike> originalList;
-    private DatabaseHelper dbHelper;
+    private HikeDatabaseHelper dbHelper;
 
-    // ...
-
-    public HikeAdapter(List<Hike> hikeList, List<Hike> originalList, DatabaseHelper dbHelper) {
+    public HikeAdapter(List<Hike> hikeList, HikeDatabaseHelper dbHelper) {
         this.hikeList = hikeList;
-        this.originalList = originalList;
         this.dbHelper = dbHelper;
     }
 
@@ -56,7 +51,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
                 int hikeId = hike.getId();
                 dbHelper.deleteHike(hikeId);
                 Toast.makeText(view.getContext(), "A hike information with id: " + hikeId + " has been deleted", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(view.getContext(), MainActivity.class);
+                Intent i = new Intent(view.getContext(), CreateHikeActivity.class);
                 view.getContext().startActivity(i);
             }
         });
