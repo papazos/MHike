@@ -50,9 +50,7 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> {
             public void onClick(View view) {
                 int hikeId = hike.getId();
                 dbHelper.deleteHike(hikeId);
-                Toast.makeText(view.getContext(), "A hike information with id: " + hikeId + " has been deleted", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(view.getContext(), CreateHikeActivity.class);
-                view.getContext().startActivity(i);
+                Toast.makeText(view.getContext(), "A hike information has been deleted", Toast.LENGTH_SHORT).show();
             }
         });
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {

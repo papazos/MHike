@@ -72,7 +72,7 @@ public class ObservationActivity extends AppCompatActivity {
     }
 
     private void saveObDetails() {
-        ObservationDatabaseHelper dbHelper = new ObservationDatabaseHelper(getApplicationContext());
+        HikeDatabaseHelper dbHelper = new HikeDatabaseHelper(getApplicationContext());
 
         int selectedHour = timePicker.getHour();
         int selectedMinute = timePicker.getMinute();

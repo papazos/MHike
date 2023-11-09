@@ -17,7 +17,7 @@ public class EditObservationActivity extends AppCompatActivity {
     private EditText obName, obComment;
     private Button btnUpdate;
     private ObservationAdapter observationAdapter;
-    private ObservationDatabaseHelper db;
+    private HikeDatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class EditObservationActivity extends AppCompatActivity {
         timePicker = findViewById(R.id.obTime);
         timePicker.setIs24HourView(true);
 
-        db = new ObservationDatabaseHelper(getApplicationContext());
+        db = new HikeDatabaseHelper(getApplicationContext());
         Observation ob = db.getObservationDetails(obId);
 
         if(ob != null){
@@ -77,7 +77,6 @@ public class EditObservationActivity extends AppCompatActivity {
     }
 
     private void updateObDetails() {
-        ObservationDatabaseHelper dbHelper = new ObservationDatabaseHelper(getApplicationContext());
         int selectedHour = timePicker.getHour();
         int selectedMinute = timePicker.getMinute();
 
@@ -86,7 +85,7 @@ public class EditObservationActivity extends AppCompatActivity {
         String comment = obComment.getText().toString();
 
         int obId = getIntent().getIntExtra("obId", -1);
-        dbHelper.editObservation(obId, name, time, comment);
+        db.editObservation(obId, name, time, comment);
 
         Toast.makeText(this, "Observation added successfully", Toast.LENGTH_SHORT).show();
 

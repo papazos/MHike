@@ -16,9 +16,9 @@ import java.util.List;
 
 public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ViewHolder> {
     private List<Observation> observationList;
-    private ObservationDatabaseHelper dbHelper;
+    private HikeDatabaseHelper dbHelper;
 
-    public ObservationAdapter(List<Observation> observationList, ObservationDatabaseHelper dbHelper) {
+    public ObservationAdapter(List<Observation> observationList, HikeDatabaseHelper dbHelper) {
         this.observationList = observationList;
         this.dbHelper = dbHelper;
     }

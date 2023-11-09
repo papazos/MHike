@@ -21,7 +21,7 @@ import java.util.List;
 
 public class EditHikeActivity extends AppCompatActivity {
     private RecyclerView obRecyclerView;
-    private ObservationDatabaseHelper dbHelper;
+    private HikeDatabaseHelper dbHelper;
     private List<Observation> observationList;
     private ObservationAdapter obAdapter;
 
@@ -42,7 +42,7 @@ public class EditHikeActivity extends AppCompatActivity {
         obRecyclerView = findViewById(R.id.obRecycleView);
         obRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        dbHelper = new ObservationDatabaseHelper(getApplicationContext());
+        dbHelper = new HikeDatabaseHelper(getApplicationContext());
 
         observationList = dbHelper.getObservationsForHike(hikeId);
         obAdapter = new ObservationAdapter(observationList, dbHelper);
